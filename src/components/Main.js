@@ -70,6 +70,7 @@ class AppComponent extends React.Component {
       imageArrangeCenterArr = imageArrangeArr.splice(centerIndex, 1);
 
 
+
     imageArrangeCenterArr[0].pos = centerPos;
 
     let topImageSpliceIndex = Math.floor(Math.random() * imageArrangeArr.length),imageTopNum;
