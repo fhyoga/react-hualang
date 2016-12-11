@@ -15,17 +15,27 @@ imageData = (function (imageDataArr) {
 })(imageData);
 
 
-
 function getRandomPos(min, max) {
   return Math.floor(Math.random() * (max - min) + min)
 }
 
+function getRandomRotate() {
+  return (Math.random()>0.5?'':'-')+Math.floor(Math.random()*30)
+}
 
 class ImageFigure extends React.Component {
   render() {
-
+    let styleObject={};
+      if (this.props.arrange.pos){
+        styleObject=this.props.arrange.pos
+      }
+      if (this.props.arrange.rotate){
+        (['Webkit','Ms','Moz','']).forEach(function (value) {
+          styleObject[value+'Transform']='rotate('+this.props.arrange.rotate+'deg)'
+        }.bind(this))
+      }
     return (
-      <figure className="img-fig" style={this.props.arrange.pos}>
+      <figure className="img-fig" style={styleObject}>
         <img src={this.props.data.url} alt={this.props.data.title}/>
         <figcaption>
           <h2>{this.props.data.title}</h2>
@@ -70,41 +80,43 @@ class AppComponent extends React.Component {
       imageArrangeCenterArr = imageArrangeArr.splice(centerIndex, 1);
 
 
+    imageArrangeCenterArr[centerIndex].pos = centerPos;
+    imageArrangeArr[centerIndex].rotate=0;
 
-    imageArrangeCenterArr[0].pos = centerPos;
-
-    let topImageSpliceIndex = Math.floor(Math.random() * imageArrangeArr.length),imageTopNum;
-    (verPosRangeTopY[1]<verPosRangeTopY[0])?imageTopNum=0:imageTopNum=Math.floor(Math.random() * 2);
+    let topImageSpliceIndex = Math.floor(Math.random() * imageArrangeArr.length), imageTopNum;
+    (verPosRangeTopY[1] < verPosRangeTopY[0]) ? imageTopNum = 0 : imageTopNum = Math.floor(Math.random() * 2);
 
     imageArrangeTopArr = imageArrangeArr.splice(topImageSpliceIndex, imageTopNum);
 
     imageArrangeTopArr.forEach(function (value, index) {
       imageArrangeTopArr[index].pos = {
-        left: getRandomPos(verPosRangeX[0],verPosRangeX[1]),
-        top:getRandomPos(verPosRangeTopY[0],verPosRangeTopY[1])
-      }
+        left: getRandomPos(verPosRangeX[0], verPosRangeX[1]),
+        top: getRandomPos(verPosRangeTopY[0], verPosRangeTopY[1])
+      };
+      imageArrangeTopArr[index].rotate=getRandomRotate()
     });
 
-   for(let i=0,j=imageArrangeArr.length,k=j/2;i<j;i++){
-     let imagePosRangeLorR=null;
-      if(i<k){
-        imagePosRangeLorR=horPosRangeLeftSecX
-      }else {
-        imagePosRangeLorR=horPosRangeRightSecX
+    for (let i = 0, j = imageArrangeArr.length, k = j / 2; i < j; i++) {
+      let imagePosRangeLorR = null;
+      if (i < k) {
+        imagePosRangeLorR = horPosRangeLeftSecX
+      } else {
+        imagePosRangeLorR = horPosRangeRightSecX
       }
-      imageArrangeArr[i].pos={
-        left:getRandomPos(imagePosRangeLorR[0],imagePosRangeLorR[1]),
-        top:getRandomPos(horPosRangeY[0],horPosRangeY[1])
-      }
-   }
+      imageArrangeArr[i].pos = {
+        left: getRandomPos(imagePosRangeLorR[0], imagePosRangeLorR[1]),
+        top: getRandomPos(horPosRangeY[0], horPosRangeY[1])
+      };
+      imageArrangeArr[i].rotate=getRandomRotate()
+    }
 
-   if (imageArrangeTopArr&&imageArrangeTopArr[0]){
-     imageArrangeArr.splice(topImageSpliceIndex,0,imageArrangeTopArr[0])
-   }
-   imageArrangeArr.splice(centerIndex,0,imageArrangeCenterArr[0]);
+    if (imageArrangeTopArr && imageArrangeTopArr[0]) {
+      imageArrangeArr.splice(topImageSpliceIndex, 0, imageArrangeTopArr[0])
+    }
+    imageArrangeArr.splice(centerIndex, 0, imageArrangeCenterArr[0]);
 
     this.setState({
-      imageArrangeArr:imageArrangeArr
+      imageArrangeArr: imageArrangeArr
     })
   }
 
@@ -132,12 +144,12 @@ class AppComponent extends React.Component {
     };
     this.Constant.horPosRange = {
       leftSecX: [-halfImageW, halfStageW - halfImageW * 3],
-      rightSecX: [halfStageW + halfImageW,stageW-halfImageW],
+      rightSecX: [halfStageW + halfImageW, stageW - halfImageW],
       y: [-halfImageH, stageH - halfImageH]
     };
     this.Constant.verPosRange = {
       x: [halfStageW - imageW, halfStageW],
-      topY: [-halfImageH, halfStageH - halfImageH*3]
+      topY: [-halfImageH, halfStageH - halfImageH * 3]
     };
     this.rearrange(0);
   }
@@ -153,8 +165,11 @@ class AppComponent extends React.Component {
 
       if (!this.state.imageArrangeArr[index]) {
         this.state.imageArrangeArr[index] = {
-          left: 0,
-          top: 0
+          pos: {
+            left: 0,
+            top: 0
+          },
+          rotate:0
         }
       }
 
@@ -171,7 +186,7 @@ class AppComponent extends React.Component {
         </section>
         <nav className="nav">
           {controlers}
-          </nav>
+        </nav>
       </section>
     );
   }
