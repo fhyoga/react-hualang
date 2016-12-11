@@ -10,7 +10,7 @@ html{
 body,html,.stage,#app,.img-sec {
   width: 100%;
   height: 100%;
-  background-color: #222;
+  background-color: #c1c1c1;
   color: #222;
 }
 /*.stage{*/
@@ -19,6 +19,7 @@ body,html,.stage,#app,.img-sec {
 .img-sec{
   position: relative;
   overflow: hidden;
+  perspective: 1800px;
 }
 .img-fig{
   position: absolute;
@@ -30,10 +31,59 @@ body,html,.stage,#app,.img-sec {
   text-align: center;
   background-color: white;
   font-size: 0.15rem;
+  transform-style: preserve-3d;
+  transition: transform 1s ease-in-out ,left 1s ease-in-out,top 1s ease-in-out;
+  transform-origin: 0 50% 0;
 }
-img{
-  width: 2.4rem;
+.img-fig.is-inverse{
+  transform: translate(320px) rotateY(180deg);
 }
+
+
+.img-back{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 50px 40px;
+  overflow: auto;
+  color:#a7a0a2;
+  font-size: 22px;
+  line-height: 1.25;
+  text-align: left;
+  background-color: #fff;
+  box-sizing: border-box;
+  transform: rotateY(180deg) translateZ(1px);
+  backface-visibility: hidden;
+}
+.nav{
+  position: absolute;
+  width: 100%;
+  bottom: 30px;
+  left: 0;
+  z-index: 101;
+  text-align: center;
+}
+.controller{
+  display: inline-block;
+  background-color: #838383;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 10px;
+}
+.controller.is-center{
+  transform:  scale(2);
+  transition: transform .5s;
+  background-image: url("../icon/icon.svg");
+  background-color: #606160
+}
+
+
+
+
+
 
 
 
