@@ -70,17 +70,23 @@ body,html,.stage,#app,.img-sec {
 .controller{
   display: inline-block;
   background-color: #838383;
-  width: 10px;
-  height: 10px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   margin: 10px;
   cursor: pointer;
+  transform: scale(.5);
 }
 .controller.is-center{
-  transform:  scale(2);
   transition: transform .5s;
-  background-image: url("../icon/icon.svg");
-  background-color: #606160
+  transform:  scale(1);
+  background: url("../icon/icon.svg") #606160  center;
+  background-size: cover;
+}
+
+.controller.is-center.is-inverse{
+  transform: rotateZ(-180deg);
+
 }
 
 

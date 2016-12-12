@@ -86,6 +86,9 @@ class ControllerUnits extends React.Component {
   if (this.props.arrange.isCenter){
     className='controller is-center'
   }
+  if(this.props.arrange.isInverse){
+    className+=' is-inverse'
+  }
     return (
       <span className={className} onClick={this.handleClick.bind(this)}>
       </span>
